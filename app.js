@@ -46,4 +46,37 @@ const createData = (req, res) => {
   res.json({ message: "USER_CREATED" });
 };
 
+const createPost = (req, res) => {
+  const post = req.body.data;
+  console.log(post);
 
+  posts.push({
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    userId: post.userId,
+  });
+
+  console.log("after: ", posts);
+
+  res.json({ message: "postCreated" });
+};
+
+//
+
+const http = require("http");
+const express = require("express");
+
+const app = express();
+app.use(express.json());
+
+app.post("/signup", createData);
+app.post("/posting", createPost); // 첫번째 인자에는 endpoint url 을 기입하고,
+
+const server = http.createServer(app);
+
+server.listen(6000, () => {
+  console.log("server is listening on PORT 6000");
+});
+
+//
