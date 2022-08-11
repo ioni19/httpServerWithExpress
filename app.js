@@ -14,6 +14,7 @@ const users = [
     password: "password",
   },
 ];
+let userId = 3;
 
 const posts = [
   {
@@ -29,13 +30,15 @@ const posts = [
     userId: 1,
   },
 ];
+let postId = 3;
 
+//미션 1
 const createData = (req, res) => {
-  const data = req.body.data;
+  const data = req.body;
   console.log(data);
 
   users.push({
-    id: data.id,
+    id: userId++,
     name: data.name,
     email: data.email,
     password: data.password,
@@ -46,12 +49,13 @@ const createData = (req, res) => {
   res.json({ message: "USER_CREATED" });
 };
 
+//미션 2
 const createPost = (req, res) => {
-  const post = req.body.data;
+  const post = req.body;
   console.log(post);
 
   posts.push({
-    id: post.id,
+    id: postId++,
     title: post.title,
     content: post.content,
     userId: post.userId,
@@ -62,7 +66,27 @@ const createPost = (req, res) => {
   res.json({ message: "postCreated" });
 };
 
-//
+//미션 3
+const postList = (req, res) => {
+  let newPosts = posts.map((post) => {
+    const correctUser = users.find((user) => 
+      user.id === post.userId)
+
+     return {
+      userId: post.userId,
+      userName: correctUser.name,
+      postingId: post.id,
+      postingTitle: post.title,
+      postingContent: post.content,
+    }});
+
+    res.json({ data: newPosts });
+  }
+
+//미션 4
+
+
+//server
 
 const http = require("http");
 const express = require("express");
@@ -71,7 +95,8 @@ const app = express();
 app.use(express.json());
 
 app.post("/signup", createData);
-app.post("/posting", createPost); // 첫번째 인자에는 endpoint url 을 기입하고,
+app.post("/posting", createPost);
+app.get("/postlist", postList);
 
 const server = http.createServer(app);
 
