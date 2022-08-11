@@ -67,6 +67,7 @@ const createPost = (req, res) => {
 };
 
 //미션 3
+
 const postList = (req, res) => {
   let newPosts = posts.map((post) => {
     const correctUser = users.find((user) => 
@@ -83,8 +84,6 @@ const postList = (req, res) => {
     res.json({ data: newPosts });
   }
 
-//미션 4
-
 
 //server
 
@@ -97,6 +96,7 @@ app.use(express.json());
 app.post("/signup", createData);
 app.post("/posting", createPost);
 app.get("/postlist", postList);
+
 
 const server = http.createServer(app);
 
